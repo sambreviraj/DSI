@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>MAP</title>
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+  mapboxgl.accessToken = 'pk.eyJ1Ijoic2FtYnJldmlyYWoiLCJhIjoiY21jcnh1bDV4MHdweDJscTJ0dmNzN2xhbCJ9.v8myPBMWxrH9Ta3BSIKVTg';
+
+  const map = new mapboxgl.Map({
+    container: 'map',
+    style: {
+      version: 8,
+      glyphs: 'mapbox://fonts/mapbox/{fontstack}/{range}.pbf',
+      sources: {
+        'country-boundaries': {
+          type: 'vector',
+          url: 'mapbox://mapbox.country-boundaries-v1'
+        }
+      },
+      layers: [
+        {
+          id: 'background',
+          type: 'background',
+          paint: { 'background-color': '#FFFFFF' }
+        },
+        {
+          id: 'countries-fill',
+          type: 'fill',
+          source: 'country-boundaries',
+          'source-layer': 'country_boundaries',
+          paint: {
+            'fill-color': [
+              'case',
+              ['==', ['get', 'iso_3166_1_alpha_3'], 'AIA'], '#FF1D1D',
+              '#D1A880'
+            ],
+            'fill-opacity': 1
+          }
+        }
+      ]
+    },
+    center: [-67, 22.5],
+    zoom: 4.5,
+    pitch: 0,
+    bearing: 0
+  });
+
+  map.on('load', () => {
+    // Add Anguilla pin
+    new mapboxgl.Marker({ color: '#FF1D1D' })
+      .setLngLat([-63.05, 18.22])
+      .addTo(map);
+
+    // Add country labels
+    map.addSource('country-labels', {
+      type: 'geojson',
+      data: {
+        type: 'FeatureCollection',
+        features: [
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [-81.5, 27.8] },
+            properties: { name: 'United States', color: '#000000' }
+          },
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [-77.5, 21.5] },
+            properties: { name: 'Cuba', color: '#000000' }
+          },
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [-70.6, 18.9] },
+            properties: { name: 'Dominican Republic', color: '#000000' }
+          },
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [-66.3, 18.2] },
+            properties: { name: 'Puerto Rico', color: '#000000' }
+          },
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [-63.05, 18.22] },
+            properties: { name: 'Anguilla', color: '#000000' }
+          },
+          {
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [-66.9, 6.4] },
+            properties: { name: 'Venezuela', color: '#000000' }
+          }
+        ]
+      }
+    });
+
+    map.addLayer({
+      id: 'country-labels-layer',
+      type: 'symbol',
+      source: 'country-labels',
+      layout: {
+        'text-field': ['get', 'name'],
+        'text-font': ['Open Sans Bold', 'Arial Unicode MS Bold'],
+        'text-size': 12,
+        'text-offset': [0, 1.8],
+        'text-anchor': 'top',
+        'text-allow-overlap': false
+      },
+      paint: {
+        'text-color': ['get', 'color']
+      }
+    });
+  });
+</script>
+</body>
+</html>
