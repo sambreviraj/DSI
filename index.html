@@ -2,13 +2,13 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>MAP</title>
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>MAP IFRAME</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
   <style>
-    body { margin: 0; padding: 0; }
-    #map { width: 100vw; height: 100vh; }
+    html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+    #map { width: 100%; height: 100%; }
   </style>
 </head>
 <body>
@@ -50,19 +50,18 @@
         }
       ]
     },
-    center: [-67, 22.5],
+    center: [-79, 19],
     zoom: 4.0,
     pitch: 0,
-    bearing: 0
+    bearing: 0,
+    renderWorldCopies: false
   });
 
   map.on('load', () => {
-    // Add Anguilla pin
     new mapboxgl.Marker({ color: '#FF1D1D' })
       .setLngLat([-63.05, 18.22])
       .addTo(map);
 
-    // Add country labels
     map.addSource('country-labels', {
       type: 'geojson',
       data: {
@@ -95,7 +94,7 @@
           },
           {
             type: 'Feature',
-            geometry: { type: 'Point', coordinates: [-66.9, 6.4] },
+            geometry: { type: 'Point', coordinates: [-66.9, 8] },
             properties: { name: 'Venezuela', color: '#000000' }
           }
         ]
