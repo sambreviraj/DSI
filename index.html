@@ -2,13 +2,22 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>MAP</title>
-  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>MAP IFRAME</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v2.14.1/mapbox-gl.css" rel="stylesheet" />
   <style>
-    body { margin: 0; padding: 0; width: 700px; height: 350px; overflow: hidden; }
-    #map { width: 100vw; height: 100vh; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 700px;
+      height: 350px;
+      overflow: hidden;
+    }
+    #map {
+      width: 700px;
+      height: 350px;
+    }
   </style>
 </head>
 <body>
